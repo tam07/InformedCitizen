@@ -78,5 +78,21 @@
                 />
         </LinearLayout>
     </RelativeLayout>
+    <ProgressBar
+        android:id="@+id/progressSpinner"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:scrollbarStyle="outsideOverlay"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/waitMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/waitLegislators"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 </FrameLayout>
 

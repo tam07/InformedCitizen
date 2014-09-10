@@ -9,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -29,6 +31,9 @@ public class SearchActivity extends FragmentActivity {
 
     EditText stateET;
     FragmentManager supportFM;
+    ProgressBar pb;
+    TextView waitTV;
+
     ArrayList<Contact> athruh;
     ArrayList<Contact> ithruq;
     ArrayList<Contact> rthruz;
@@ -38,7 +43,9 @@ public class SearchActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        pb = (ProgressBar)findViewById(R.id.progressSpinner);
         stateET = (EditText)findViewById(R.id.stateET);
+        waitTV = (TextView) findViewById(R.id.waitMessage);
         supportFM = getSupportFragmentManager();
         athruh = new ArrayList<Contact>();
         ithruq = new ArrayList<Contact>();
@@ -67,9 +74,14 @@ public class SearchActivity extends FragmentActivity {
 
 
     public void onSearchClick(View v) {
+        pb.setVisibility(View.VISIBLE);
+        waitTV.setVisibility(View.VISIBLE);
+
         String enteredState = stateET.getText().toString();
         if(enteredState.equals(""))
         {
+            pb.setVisibility(View.GONE);
+            waitTV.setVisibility(View.GONE);
             MyAlertDialogFragment enterStateDialog = MyAlertDialogFragment.newInstance("Input Error",
                                                      "Enter a state abbreviation to find legislators");
             enterStateDialog.show(supportFM, "enter_state_dialog");
@@ -78,6 +90,9 @@ public class SearchActivity extends FragmentActivity {
 
             @Override
             public void onSuccess(JSONObject contactsJson) {
+                // get rid of these and test back button press
+                pb.setVisibility(View.GONE);
+                waitTV.setVisibility(View.GONE);
                 ArrayList<Contact> contacts = Contact.fromJSON(contactsJson);
                 for(Contact currLeg: contacts) {
                     String fullname = currLeg.getName();
@@ -109,28 +124,34 @@ public class SearchActivity extends FragmentActivity {
             @Override
             public void onFailure(Throwable arg0, JSONArray arg1) {
                 super.onFailure(arg0, arg1);
+                pb.setVisibility(View.GONE);
+                waitTV.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(),
-                        "Failed with JSONArray 2nd arg!", Toast.LENGTH_LONG).show();
+                        "getLegislators failed with JSONArray 2nd arg!", Toast.LENGTH_LONG).show();
             }
 
             // If it fails it fails here where arg1 is the error message(dev inactive)
             @Override
             public void onFailure(Throwable arg0, String arg1) {
                 super.onFailure(arg0, arg1);
+                pb.setVisibility(View.GONE);
+                waitTV.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(),
-                        "getTrailerUrl failed with String 2nd arg!",
+                        "getLegislators failed with String 2nd arg!",
                         Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure(Throwable arg0, JSONObject arg1) {
                 super.onFailure(arg0, arg1);
+                pb.setVisibility(View.GONE);
+                waitTV.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(),
-                        "Failed with JSONObject 2nd arg!", Toast.LENGTH_LONG).show();
+                        "getLegislators failed with JSONObject 2nd arg!", Toast.LENGTH_LONG).show();
             }
-
         });
     }
+
 
     @Override
     public void onResume() {

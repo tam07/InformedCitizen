@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import sbl.com.informedcitizen.R;
 import sbl.com.informedcitizen.activities.DetailActivity;
+import sbl.com.informedcitizen.activities.ListActivity;
 import sbl.com.informedcitizen.helpers.APIclient;
 import sbl.com.informedcitizen.helpers.Constants;
 import sbl.com.informedcitizen.models.Contact;
@@ -122,19 +123,16 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
         viewHolder.chamberTV.setText(currContact.getChamber());
         viewHolder.partyTV.setText(currContact.getParty());
 
-        convertView.setOnHoverListener(new View.OnHoverListener() {
-            @Override
-            public boolean onHover(View v, MotionEvent event) {
-                // set background color of v to light blue
-                return false;
-            }
-        });
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ListActivity context = (ListActivity)getContext();
+                context.getLoadDetailMsg().setVisibility(View.VISIBLE);
+                context.getLoadDetailPB().setVisibility(View.VISIBLE);
                 Intent i = new Intent(getContext(), DetailActivity.class);
                 i.putExtra(Constants.DETAIL_INTENT_KEY, currContact);
-                getContext().startActivity(i);
+                //getContext().startActivity(i);
+                context.startActivityForResult(i, 100);
             }
         });
         return convertView;

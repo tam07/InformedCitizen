@@ -1,9 +1,13 @@
 package sbl.com.informedcitizen.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -20,13 +24,27 @@ public class ListActivity extends SherlockFragmentActivity {
     ArrayList<Contact> secondList;
     ArrayList<Contact> thirdList;
 
+    public ProgressBar getLoadDetailPB() {
+        return loadDetailPB;
+    }
+
+    public TextView getLoadDetailMsg() {
+        return loadDetailMsg;
+    }
+
+    ProgressBar loadDetailPB;
+    TextView loadDetailMsg;
+
+
     public ArrayList<Contact> getFirstList() {
         return firstList;
     }
 
+
     public ArrayList<Contact> getSecondList() {
         return secondList;
     }
+
 
     public ArrayList<Contact> getThirdList() {
         return thirdList;
@@ -36,6 +54,9 @@ public class ListActivity extends SherlockFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        loadDetailPB = (ProgressBar)findViewById(R.id.detailPB);
+        loadDetailMsg = (TextView)findViewById(R.id.detailWaitMsg);
 
         firstList = (ArrayList<Contact>)getIntent().getSerializableExtra("first");
         secondList = (ArrayList<Contact>)getIntent().getSerializableExtra("second");
@@ -94,4 +115,13 @@ public class ListActivity extends SherlockFragmentActivity {
         int selectedTabIndex = getSupportActionBar().getSelectedNavigationIndex();
         savedInstanceState.putInt("tIndex", selectedTabIndex);
     }
+
+
+    @Override
+    public void onActivityResult(int reqCode, int resCode, Intent data) {
+        loadDetailPB.setVisibility(View.GONE);
+        loadDetailMsg.setVisibility(View.GONE);
+    }
+
+
 }

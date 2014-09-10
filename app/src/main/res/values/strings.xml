@@ -23,5 +23,7 @@
     <string name="individual">Individual</string>
     <string name="search">Search</string>
     <string name="ca">CA</string>
+    <string name="waitLegislators">Finding Legislators....</string>
+    <string name="waitDetail">Loading Details....</string>
 
 </resources>
