@@ -24,17 +24,6 @@ public class ListActivity extends SherlockFragmentActivity {
     ArrayList<Contact> secondList;
     ArrayList<Contact> thirdList;
 
-    public ProgressBar getLoadDetailPB() {
-        return loadDetailPB;
-    }
-
-    public TextView getLoadDetailMsg() {
-        return loadDetailMsg;
-    }
-
-    ProgressBar loadDetailPB;
-    TextView loadDetailMsg;
-
 
     public ArrayList<Contact> getFirstList() {
         return firstList;
@@ -54,9 +43,6 @@ public class ListActivity extends SherlockFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-
-        loadDetailPB = (ProgressBar)findViewById(R.id.detailPB);
-        loadDetailMsg = (TextView)findViewById(R.id.detailWaitMsg);
 
         firstList = (ArrayList<Contact>)getIntent().getSerializableExtra("first");
         secondList = (ArrayList<Contact>)getIntent().getSerializableExtra("second");
@@ -116,12 +102,12 @@ public class ListActivity extends SherlockFragmentActivity {
         savedInstanceState.putInt("tIndex", selectedTabIndex);
     }
 
-
+/*
     @Override
     public void onActivityResult(int reqCode, int resCode, Intent data) {
         loadDetailPB.setVisibility(View.GONE);
         loadDetailMsg.setVisibility(View.GONE);
-    }
+    }*/
 
 
 }

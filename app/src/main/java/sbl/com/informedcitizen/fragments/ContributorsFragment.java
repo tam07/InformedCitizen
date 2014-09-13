@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,8 @@ import sbl.com.informedcitizen.models.Contributor;
 public class ContributorsFragment extends Fragment {
     private static final String ARG_PARAM1 = "candID";
     private ListView contributorsLV;
+    private ProgressBar pb;
+    private TextView waitMsg;
 
     public static ContributorsFragment newInstance(String candidateID) {
         ContributorsFragment fragment = new ContributorsFragment();
@@ -54,7 +57,8 @@ public class ContributorsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_contributors, container, false);
         contributorsLV = (ListView)v.findViewById(R.id.contributorsLV);
-
+        pb = (ProgressBar)v.findViewById(R.id.progressContr);
+        waitMsg = (TextView)v.findViewById(R.id.msgContr);
         String candidateID = getArguments().getString(ARG_PARAM1);
         APIclient.getContributors(getActivity(), candidateID, new JsonHttpResponseHandler() {
             @Override
@@ -66,10 +70,43 @@ public class ContributorsFragment extends Fragment {
                     ArrayList<Contributor> contributorList = Contributor.fromJSON(contributorValue);
                     ContributorsAdapter contribAdapter = new ContributorsAdapter(getActivity(),
                                                                                  contributorList);
+
+                    waitMsg.setVisibility(View.GONE);
+                    pb.setVisibility(View.GONE);
+                    contributorsLV.setVisibility(View.VISIBLE);
                     contributorsLV.setAdapter(contribAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+
+            @Override
+            public void onFailure(Throwable arg0, JSONArray arg1) {
+                super.onFailure(arg0, arg1);
+                pb.setVisibility(View.GONE);
+                waitMsg.setVisibility(View.GONE);
+                Toast.makeText(getActivity(),
+                        "getContributors failed with JSONArray 2nd arg!", Toast.LENGTH_LONG).show();
+            }
+
+            // If it fails it fails here where arg1 is the error message(dev inactive)
+            @Override
+            public void onFailure(Throwable arg0, String arg1) {
+                super.onFailure(arg0, arg1);
+                pb.setVisibility(View.GONE);
+                waitMsg.setVisibility(View.GONE);
+                Toast.makeText(getActivity(),
+                        "getContributors failed with String 2nd arg!",
+                        Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Throwable arg0, JSONObject arg1) {
+                super.onFailure(arg0, arg1);
+                pb.setVisibility(View.GONE);
+                waitMsg.setVisibility(View.GONE);
+                Toast.makeText(getActivity(),
+                        "getContributors failed with JSONObject 2nd arg!", Toast.LENGTH_LONG).show();
             }
         });
 

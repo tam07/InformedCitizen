@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -127,12 +128,12 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
             @Override
             public void onClick(View v) {
                 ListActivity context = (ListActivity)getContext();
-                context.getLoadDetailMsg().setVisibility(View.VISIBLE);
-                context.getLoadDetailPB().setVisibility(View.VISIBLE);
-                Intent i = new Intent(getContext(), DetailActivity.class);
-                i.putExtra(Constants.DETAIL_INTENT_KEY, currContact);
-                //getContext().startActivity(i);
-                context.startActivityForResult(i, 100);
+
+                Intent detailIntent = new Intent(context, DetailActivity.class);
+                detailIntent.putExtra(Constants.DETAIL_INTENT_KEY, currContact);
+                context.startActivity(detailIntent);
+
+
             }
         });
         return convertView;

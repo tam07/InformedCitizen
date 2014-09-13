@@ -1,43 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:orientation="vertical"
+    android:id="@+id/contactFrag">
 
     <TextView
-        android:id="@+id/addressTV"
+    android:id="@+id/addressTV"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginTop="50dp"
+    android:text="address"
+    android:textSize="20sp"
+    android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/cityTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/default_string"
-        android:textSize="20dp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_gravity="center"
+        android:text="@string/WashingtonDC"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/phoneIcon"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/phone_circle_64"
+        android:onClick="onLaunchCall"/>
+
     <TextView
         android:id="@+id/phoneNumberTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/default_string"
-        android:textSize="20dp"
-        android:layout_marginBottom="20dp" />
-    <TextView
-        android:id="@+id/facebookTV"
-        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="9dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Click icon to call: 415-229-0214" />
+
+    <LinearLayout
+        android:id="@+id/twitterSection"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/default_string"
-        android:textSize="20dp"
-        android:layout_marginBottom="20dp" />
-    <TextView
-        android:id="@+id/twitterTV"
-        android:layout_width="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/twitterIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/twitter_circle_64"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/twitterTV"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="left"
+            android:text="youtube_handle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/facebookSection"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/default_string"
-        android:textSize="20dp"
-        android:layout_marginBottom="20dp" />
-    <TextView
-        android:id="@+id/youtubeTV"
-        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/facebookIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/facebook_circle_64"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/facebookTV"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="left"
+            android:text="fb_handle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/youtubeSection"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/default_string"
-        android:textSize="20dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/youtubeIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/youtube_circle_64"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/youtubeTV"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="left"
+            android:text="youtube_handle" />
+    </LinearLayout>
+
+
 </LinearLayout>

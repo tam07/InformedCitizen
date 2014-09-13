@@ -1,6 +1,8 @@
 package sbl.com.informedcitizen.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -57,10 +59,13 @@ public class ContactFragment extends Fragment {
 
         // set view values
         Contact contact = (Contact)getArguments().getSerializable(ARG_PARAM1);
+
         addrTV.setText(contact.getAddress());
-        phoneTV.setText(contact.getPhoneNo());
-        fbTV.setText(contact.getFacebook());
+
+        phoneTV.setText("Click icon to call: " + contact.getPhoneNo());
+
         twitterTV.setText(contact.getTwitter());
+        fbTV.setText(contact.getFacebook());
         ytTV.setText(contact.getYoutube());
 
         return v;
@@ -76,4 +81,7 @@ public class ContactFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
+
+
 }

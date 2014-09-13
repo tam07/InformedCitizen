@@ -60,7 +60,7 @@ public class Contact implements Serializable, Comparable {
             String yt = contactJson.getString("youtube_url");
 
             legislator = new Contact(id, name, chamber, party, addr, phone,
-                         Uri.encode(fb), Uri.encode(twitter), Uri.encode(yt));
+                         fb, twitter, yt);
         }
         catch (Exception e) {
             e.printStackTrace();

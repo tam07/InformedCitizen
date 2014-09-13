@@ -7,6 +7,8 @@ import android.support.v4.app.*;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +25,12 @@ import sbl.com.informedcitizen.helpers.APIclient;
 
 
 public class SummaryFragment extends Fragment {
+    private static final String CAND_ID = "candID";
 
-    private static final String ARG_PARAM1 = "candID";
+    private ProgressBar pb;
+    private TextView waitTV;
+    private LinearLayout contentLL;
+    private TextView nameTV;
     private TextView firstElectedTV;
     private TextView nextElectionTV;
     private TextView totalTV;
@@ -39,7 +45,8 @@ public class SummaryFragment extends Fragment {
     public static SummaryFragment newInstance(String candidateID) {
         SummaryFragment fragment = new SummaryFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, candidateID);
+        args.putString(CAND_ID, candidateID);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,6 +72,10 @@ public class SummaryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_summary, container, false);
+        pb = (ProgressBar)v.findViewById(R.id.progressSummary);
+        waitTV = (TextView)v.findViewById(R.id.msgSummary);
+        contentLL = (LinearLayout)v.findViewById(R.id.summaryContent);
+        nameTV = (TextView)v.findViewById(R.id.nameTV);
         firstElectedTV = (TextView)v.findViewById(R.id.firstElectedTV);
         nextElectionTV = (TextView)v.findViewById(R.id.nextElectionTV);
         totalTV = (TextView)v.findViewById(R.id.totalTV);
@@ -73,64 +84,78 @@ public class SummaryFragment extends Fragment {
         debtTV = (TextView)v.findViewById(R.id.debtTV);
         lastUpdatedTV = (TextView)v.findViewById(R.id.lastUpdatedTV);
 
-        String candID = getArguments().getString(ARG_PARAM1);
-        APIclient.getSummary(getActivity(), candID, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(JSONObject jsonResp) {
-                try {
-                    JSONObject responseValue = jsonResp.getJSONObject("response");
-                    JSONObject summaryValue = responseValue.getJSONObject("summary");
-                    JSONObject attributesValue = summaryValue.getJSONObject("@attributes");
+            String candID = getArguments().getString(CAND_ID);
+            APIclient.getSummary(getActivity(), candID, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(JSONObject jsonResp) {
+                    try {
+                        pb.setVisibility(View.GONE);
+                        waitTV.setVisibility(View.GONE);
 
-                    String firstElected = attributesValue.getString("first_elected");
-                    firstElectedTV.setText(firstElected);
+                        contentLL.setVisibility(View.VISIBLE);
+                        JSONObject responseValue = jsonResp.getJSONObject("response");
+                        JSONObject summaryValue = responseValue.getJSONObject("summary");
+                        JSONObject attributesValue = summaryValue.getJSONObject("@attributes");
 
-                    String nextElection = attributesValue.getString("next_election");
-                    nextElectionTV.setText(nextElection);
+                        String lastFirst = attributesValue.getString("cand_name");
+                        String[] parts = lastFirst.split(", ");
+                        String fullname = parts[1] + " " + parts[0];
+                        nameTV.setText(fullname);
 
-                    String total = attributesValue.getString("total");
-                    totalTV.setText("$" + total);
+                        String firstElected = attributesValue.getString("first_elected");
+                        firstElectedTV.setText(firstElected);
 
-                    String spent = attributesValue.getString("spent");
-                    spentTV.setText("$" + spent);
+                        String nextElection = attributesValue.getString("next_election");
+                        nextElectionTV.setText(nextElection);
 
-                    String cash = attributesValue.getString("cash_on_hand");
-                    cashTV.setText("$" + cash);
+                        String total = attributesValue.getString("total");
+                        totalTV.setText("$" + total);
 
-                    String debt = attributesValue.getString("debt");
-                    debtTV.setText("$" + debt);
+                        String spent = attributesValue.getString("spent");
+                        spentTV.setText("$" + spent);
 
-                    String lastUpdated = attributesValue.getString("last_updated");
-                    lastUpdatedTV.setText(lastUpdated);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                        String cash = attributesValue.getString("cash_on_hand");
+                        cashTV.setText("$" + cash);
+
+                        String debt = attributesValue.getString("debt");
+                        debtTV.setText("$" + debt);
+
+                        String lastUpdated = attributesValue.getString("last_updated");
+                        lastUpdatedTV.setText(lastUpdated);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Throwable arg0, JSONArray arg1) {
-                super.onFailure(arg0, arg1);
-                Toast.makeText(getActivity(),
-                        "getSummary failed with JSONArray 2nd arg!", Toast.LENGTH_LONG).show();
-            }
+                @Override
+                public void onFailure(Throwable arg0, JSONArray arg1) {
+                    super.onFailure(arg0, arg1);
+                    pb.setVisibility(View.GONE);
+                    waitTV.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(),
+                            "getSummary failed with JSONArray 2nd arg!", Toast.LENGTH_LONG).show();
+                }
 
-            // If it fails it fails here where arg1 is the error message(dev inactive)
-            @Override
-            public void onFailure(Throwable arg0, String arg1) {
-                super.onFailure(arg0, arg1);
-                Toast.makeText(getActivity(),
-                        "getSummary failed with String 2nd arg!",
-                        Toast.LENGTH_LONG).show();
-            }
+                // If it fails it fails here where arg1 is the error message(dev inactive)
+                @Override
+                public void onFailure(Throwable arg0, String arg1) {
+                    super.onFailure(arg0, arg1);
+                    pb.setVisibility(View.GONE);
+                    waitTV.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(),
+                            "getSummary failed with String 2nd arg!",
+                            Toast.LENGTH_LONG).show();
+                }
 
-            @Override
-            public void onFailure(Throwable arg0, JSONObject arg1) {
-                super.onFailure(arg0, arg1);
-                Toast.makeText(getActivity(),
-                        "getSummary failed with JSONObject 2nd arg!", Toast.LENGTH_LONG).show();
-            }
-        });
-
+                @Override
+                public void onFailure(Throwable arg0, JSONObject arg1) {
+                    super.onFailure(arg0, arg1);
+                    pb.setVisibility(View.GONE);
+                    waitTV.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(),
+                            "getSummary failed with JSONObject 2nd arg!", Toast.LENGTH_LONG).show();
+                }
+            });
         return v;
     }
 
@@ -141,6 +166,7 @@ public class SummaryFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+
 
     @Override
     public void onAttach(Activity activity) {

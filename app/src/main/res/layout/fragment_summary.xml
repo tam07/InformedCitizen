@@ -1,161 +1,208 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="sbl.com.informedcitizen.fragments.SummaryFragment"
-    android:orientation="vertical"
-    android:gravity="center_vertical">
+    tools:context="sbl.com.informedcitizen.fragments.SummaryFragment">
 
     <LinearLayout
+        android:id="@+id/summaryContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/first_elected"
-            android:layout_marginRight="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/firstElectedTV"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/default_string"
-            android:textSize="20sp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:text="@string/name"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/nameTV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:text="@string/first_elected"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/firstElectedTV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:text="@string/next_election"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/nextElectionTV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:text="@string/total"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalTV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:text="@string/spent"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/spentTV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:text="@string/cash"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/cashTV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/default_string"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:text="@string/debt"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/debtTV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/default_string"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:text="@string/lastUpdated"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lastUpdatedTV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="20sp" />
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/progressSummary"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:scrollbarStyle="outsideOverlay" />
+
+    <TextView
+        android:id="@+id/msgSummary"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/next_election"
-            android:layout_marginRight="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/nextElectionTV"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/default_string"
-            android:textSize="20sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="50dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/total"
-            android:layout_marginRight="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/totalTV"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/default_string"
-            android:textSize="20sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/spent"
-            android:layout_marginRight="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/spentTV"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/default_string"
-            android:textSize="20sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/cash"
-            android:layout_marginRight="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/cashTV"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/default_string"
-            android:textSize="20sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/debt"
-            android:layout_marginRight="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/debtTV"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/default_string"
-            android:textSize="20sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="50dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/lastUpdated"
-            android:layout_marginRight="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/lastUpdatedTV"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/default_string"
-            android:textSize="20sp"/>
-    </LinearLayout>
-</LinearLayout>
+        android:layout_gravity="center"
+        android:text="@string/waitSummary"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+</FrameLayout>

@@ -60,8 +60,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:hint="@string/ca"
-                android:textColorHint="@color/White"
-                android:textStyle="bold"
+                android:textColorHint="@color/LightGrey"
                 android:textColor="@color/White" />
 
             <Button

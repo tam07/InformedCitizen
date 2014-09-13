@@ -17,7 +17,9 @@
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@id/profileIV"
-        android:layout_toRightOf="@id/profileIV" />
+        android:layout_toRightOf="@id/profileIV"
+        android:textStyle="bold"
+        android:gravity="center_vertical"/>
 
     <TextView
         android:id="@+id/chamberTV"
@@ -27,7 +29,8 @@
         android:layout_marginStart="5dp"
         android:layout_below="@id/nameTV"
         android:layout_toRightOf="@id/profileIV"
-        android:layout_toEndOf="@id/profileIV" />
+        android:layout_toEndOf="@id/profileIV"
+        android:gravity="center_vertical"/>
 
     <TextView
         android:id="@+id/partyTV"
@@ -37,6 +40,7 @@
         android:layout_marginStart="5dp"
         android:layout_below="@id/chamberTV"
         android:layout_toRightOf="@id/profileIV"
-        android:layout_toEndOf="@id/profileIV" />
+        android:layout_toEndOf="@id/profileIV"
+        android:gravity="center_vertical"/>
 
 </RelativeLayout>

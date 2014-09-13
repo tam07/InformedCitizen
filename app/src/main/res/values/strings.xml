@@ -25,5 +25,12 @@
     <string name="ca">CA</string>
     <string name="waitLegislators">Finding Legislators....</string>
     <string name="waitDetail">Loading Details....</string>
+    <string name="waitContact">Getting Contact Info....</string>
+    <string name="waitSummary">Gathering Politician Summary....</string>
+    <string name="waitContr">Gathering Contributors....</string>
+    <string name="waitIndust">Gathering Industries....</string>
+    <string name="socialMediaInstr">Click to visit their social media sites</string>
+    <string name="name">Name:</string>
+    <string name="WashingtonDC">Washington DC, 20515</string>
 
 </resources>

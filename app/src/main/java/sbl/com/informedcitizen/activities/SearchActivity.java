@@ -1,13 +1,17 @@
 package sbl.com.informedcitizen.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -72,84 +76,109 @@ public class SearchActivity extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private Boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
+
 
     public void onSearchClick(View v) {
-        pb.setVisibility(View.VISIBLE);
-        waitTV.setVisibility(View.VISIBLE);
+        stateET.clearFocus();
 
-        String enteredState = stateET.getText().toString();
-        if(enteredState.equals(""))
-        {
-            pb.setVisibility(View.GONE);
-            waitTV.setVisibility(View.GONE);
-            MyAlertDialogFragment enterStateDialog = MyAlertDialogFragment.newInstance("Input Error",
-                                                     "Enter a state abbreviation to find legislators");
-            enterStateDialog.show(supportFM, "enter_state_dialog");
+        // hide soft keyboard upon search click
+        InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(stateET.getWindowToken(), 0);
+
+
+        /* if internet connection is available, load progress bar and launch list activity
+           otherwise show error diaog
+         */
+        if(!isNetworkAvailable()) {
+            MyAlertDialogFragment noConnDialog = MyAlertDialogFragment.newInstance("No Intenet Connection",
+                    "Connect your device to the internet to search");
+            noConnDialog.show(supportFM, "enter_state_dialog");
         }
-        APIclient.getLegislators(this, enteredState, new JsonHttpResponseHandler() {
+        else {
+            pb.setVisibility(View.VISIBLE);
+            waitTV.setVisibility(View.VISIBLE);
 
-            @Override
-            public void onSuccess(JSONObject contactsJson) {
-                // get rid of these and test back button press
+            String enteredState = stateET.getText().toString();
+            if (enteredState.equals("")) {
                 pb.setVisibility(View.GONE);
                 waitTV.setVisibility(View.GONE);
-                ArrayList<Contact> contacts = Contact.fromJSON(contactsJson);
-                for(Contact currLeg: contacts) {
-                    String fullname = currLeg.getName();
-                    String[] tokens = fullname.split(" ");
-                    String lastname = tokens[tokens.length-1];
-
-                    // A thru H
-                    if(lastname.compareToIgnoreCase("I") < 0)
-                        athruh.add(currLeg);
-                    // bigger than H, but less than R (I-Q)
-                    else if(lastname.compareToIgnoreCase("R") < 0)
-                        ithruq.add(currLeg);
-                    else
-                        rthruz.add(currLeg);
-                }
-                Collections.sort(athruh);
-                Collections.sort(ithruq);
-                Collections.sort(rthruz);
-
-                Intent i = new Intent(SearchActivity.this, ListActivity.class);
-                i.putExtra("first", athruh);
-                i.putExtra("second", ithruq);
-                i.putExtra("third", rthruz);
-
-                startActivity(i);
+                MyAlertDialogFragment enterStateDialog = MyAlertDialogFragment.newInstance("Input Error",
+                        "Enter a state abbreviation to find legislators");
+                enterStateDialog.show(supportFM, "enter_state_dialog");
             }
+            else {
+                APIclient.getLegislators(this, enteredState, new JsonHttpResponseHandler() {
 
+                    @Override
+                    public void onSuccess(JSONObject contactsJson) {
+                        // get rid of these and test back button press
+                        pb.setVisibility(View.GONE);
+                        waitTV.setVisibility(View.GONE);
+                        ArrayList<Contact> contacts = Contact.fromJSON(contactsJson);
+                        for (Contact currLeg : contacts) {
+                            String fullname = currLeg.getName();
+                            String[] tokens = fullname.split(" ");
+                            String lastname = tokens[tokens.length - 1];
 
-            @Override
-            public void onFailure(Throwable arg0, JSONArray arg1) {
-                super.onFailure(arg0, arg1);
-                pb.setVisibility(View.GONE);
-                waitTV.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(),
-                        "getLegislators failed with JSONArray 2nd arg!", Toast.LENGTH_LONG).show();
+                            // A thru H
+                            if (lastname.compareToIgnoreCase("I") < 0)
+                                athruh.add(currLeg);
+                                // bigger than H, but less than R (I-Q)
+                            else if (lastname.compareToIgnoreCase("R") < 0)
+                                ithruq.add(currLeg);
+                            else
+                                rthruz.add(currLeg);
+                        }
+                        Collections.sort(athruh);
+                        Collections.sort(ithruq);
+                        Collections.sort(rthruz);
+
+                        Intent i = new Intent(SearchActivity.this, ListActivity.class);
+                        i.putExtra("first", athruh);
+                        i.putExtra("second", ithruq);
+                        i.putExtra("third", rthruz);
+
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable arg0, JSONArray arg1) {
+                        super.onFailure(arg0, arg1);
+                        pb.setVisibility(View.GONE);
+                        waitTV.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),
+                                "getLegislators failed with JSONArray 2nd arg!", Toast.LENGTH_LONG).show();
+                    }
+
+                    // If it fails it fails here where arg1 is the error message(dev inactive)
+                    @Override
+                    public void onFailure(Throwable arg0, String arg1) {
+                        super.onFailure(arg0, arg1);
+                        pb.setVisibility(View.GONE);
+                        waitTV.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),
+                                "getLegislators failed with String 2nd arg!",
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable arg0, JSONObject arg1) {
+                        super.onFailure(arg0, arg1);
+                        pb.setVisibility(View.GONE);
+                        waitTV.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),
+                                "getLegislators failed with JSONObject 2nd arg!", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
-
-            // If it fails it fails here where arg1 is the error message(dev inactive)
-            @Override
-            public void onFailure(Throwable arg0, String arg1) {
-                super.onFailure(arg0, arg1);
-                pb.setVisibility(View.GONE);
-                waitTV.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(),
-                        "getLegislators failed with String 2nd arg!",
-                        Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Throwable arg0, JSONObject arg1) {
-                super.onFailure(arg0, arg1);
-                pb.setVisibility(View.GONE);
-                waitTV.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(),
-                        "getLegislators failed with JSONObject 2nd arg!", Toast.LENGTH_LONG).show();
-            }
-        });
+        }
     }
 
 

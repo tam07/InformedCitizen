@@ -1,7 +1,8 @@
 package sbl.com.informedcitizen.activities;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.support.v4.app.*;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
@@ -101,9 +102,10 @@ public class DetailActivity extends FragmentActivity {
 
     public void SelectItem(int position) {
         Fragment fragment = null;
-        Bundle args = new Bundle();
+        //Bundle args = new Bundle();
         switch (position) {
             case 0:
+                // add bunch of intent vars here, in fragment get bundle strings instead of api call
                 fragment = SummaryFragment.newInstance(thisContact.getCandID());
                 break;
             case 1:
@@ -182,4 +184,11 @@ public class DetailActivity extends FragmentActivity {
         getMenuInflater().inflate(R.menu.detail, menu);
         return true;
     }
+
+    public void onLaunchCall(View v) {
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:" + thisContact.getPhoneNo()));
+        startActivity(callIntent);
+    }
+
 }
