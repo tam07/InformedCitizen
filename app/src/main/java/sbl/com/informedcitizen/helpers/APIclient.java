@@ -6,6 +6,7 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.SyncHttpClient;
 
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
@@ -17,6 +18,7 @@ import org.json.JSONObject;
  */
 public class APIclient {
     private static AsyncHttpClient client = new AsyncHttpClient();
+    private static SyncHttpClient blockingClient = new SyncHttpClient();
 
     public static void getLegislators(Context context, String state, AsyncHttpResponseHandler respHandler) {
 
@@ -88,14 +90,14 @@ public class APIclient {
     }
 
 
-    public static void getImageJson(Context context, String url, AsyncHttpResponseHandler respHandler) {
+    public static void getImageJsonSynch(Context context, String url, AsyncHttpResponseHandler respHandler) {
         Log.d("DEBUG", "About to GET " + url);
-        client.get(context, url, respHandler);
+        blockingClient.get(context, url, respHandler);
     }
 
 
     private static String getRequestUrl(String suffix) {
         return Constants.BASE_URL + suffix + Constants.KEY_PARAM + Constants.API_KEY +
-               Constants.FORMAT_PARAM + Constants.RESPONSE_FORMAT;
+                Constants.FORMAT_PARAM + Constants.RESPONSE_FORMAT;
     }
 }

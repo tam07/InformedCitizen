@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +39,7 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
 
     // view cache to avoid refinding view that exists
     private static class ViewHolder {
-        ImageView profileIV;
+        //ImageView profileIV;
         TextView nameTV;
         TextView chamberTV;
         TextView partyTV;
@@ -64,7 +65,7 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.contact_item, parent, false);
 
-            viewHolder.profileIV = (ImageView) convertView.findViewById(R.id.profileIV);
+            //viewHolder.profileIV = (ImageView) convertView.findViewById(R.id.profileIV);
             viewHolder.nameTV = (TextView) convertView.findViewById(R.id.nameTV);
             viewHolder.chamberTV = (TextView) convertView.findViewById(R.id.chamberTV);
             viewHolder.partyTV = (TextView) convertView.findViewById(R.id.partyTV);
@@ -77,9 +78,9 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
 
         String encodedName = Uri.encode(currContact.getName());
         String googleUrl = Constants.IMG_SEARCH + encodedName;
-        APIclient.getImageJson(getContext(), googleUrl, new JsonHttpResponseHandler() {
+        /*APIclient.getImageJsonSynch(getContext(), googleUrl, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(JSONObject imgJson) {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject imgJson) {
                 try {
                     JSONObject responseDataValue = imgJson.getJSONObject("responseData");
                     JSONArray resultsValue = responseDataValue.getJSONArray("results");
@@ -95,30 +96,31 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
                 }
             }
 
-            @Override
-            public void onFailure(Throwable arg0, JSONArray arg1) {
-                super.onFailure(arg0, arg1);
-                Toast.makeText(getContext(),
-                        "getImageJson failed with JSONArray 2nd arg!", Toast.LENGTH_LONG).show();
-            }
-
             // If it fails it fails here where arg1 is the error message(dev inactive)
             @Override
-            public void onFailure(Throwable arg0, String arg1) {
-                super.onFailure(arg0, arg1);
+            public void onFailure(int statusCode, Header[] headers, String responseStr, Throwable arg0) {
+                super.onFailure(statusCode, headers, responseStr, arg0);
                 Toast.makeText(getContext(),
-                        "getImageJson failed with String 2nd arg!",
+                        "getImageJsonSynch failed with String 2nd arg!",
                         Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void onFailure(Throwable arg0, JSONObject arg1) {
-                super.onFailure(arg0, arg1);
+             public void onFailure(int statusCode, Header[] headers, Throwable arg0, JSONArray arg1) {
+                super.onFailure(statusCode, headers, arg0, arg1);
                 Toast.makeText(getContext(),
-                        "getImageJson failed with JSONObject 2nd arg!", Toast.LENGTH_LONG).show();
+                        "getImageJsonSynch failed with JSONArray arg!", Toast.LENGTH_LONG).show();
             }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable arg0, JSONObject arg1) {
+                super.onFailure(statusCode, headers, arg0, arg1);
+                Toast.makeText(getContext(),
+                        "getImageJsonSynch failed with JSONObject arg!", Toast.LENGTH_LONG).show();
+            }
+
         } // end anon class jsonhttpresponsehandler
-        );
+        );*/
         //viewHolder.profileIV.setBi
         viewHolder.nameTV.setText(currContact.getName());
         viewHolder.chamberTV.setText(currContact.getChamber());

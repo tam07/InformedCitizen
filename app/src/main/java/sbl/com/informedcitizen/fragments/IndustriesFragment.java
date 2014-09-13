@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,7 +62,7 @@ public class IndustriesFragment extends Fragment {
         String candidateID = getArguments().getString(ARG_PARAM1);
         APIclient.getIndustries(getActivity(), candidateID, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(JSONObject jsonResp) {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject jsonResp) {
                 try {
                     JSONObject responseValue = jsonResp.getJSONObject("response");
                     JSONObject industriesValue = responseValue.getJSONObject("industries");
@@ -78,33 +79,15 @@ public class IndustriesFragment extends Fragment {
                 }
             }
 
-            @Override
-            public void onFailure(Throwable arg0, JSONArray arg1) {
-                super.onFailure(arg0, arg1);
-                pb.setVisibility(View.GONE);
-                waitMsg.setVisibility(View.GONE);
-                Toast.makeText(getActivity(),
-                        "getIndustries failed with JSONArray 2nd arg!", Toast.LENGTH_LONG).show();
-            }
-
             // If it fails it fails here where arg1 is the error message(dev inactive)
             @Override
-            public void onFailure(Throwable arg0, String arg1) {
-                super.onFailure(arg0, arg1);
+            public void onFailure(int statusCode, Header[] headers, String responseStr, Throwable arg0) {
+                super.onFailure(statusCode, headers, responseStr, arg0);
                 pb.setVisibility(View.GONE);
                 waitMsg.setVisibility(View.GONE);
                 Toast.makeText(getActivity(),
                         "getIndustries failed with String 2nd arg!",
                         Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Throwable arg0, JSONObject arg1) {
-                super.onFailure(arg0, arg1);
-                pb.setVisibility(View.GONE);
-                waitMsg.setVisibility(View.GONE);
-                Toast.makeText(getActivity(),
-                        "getIndustries failed with JSONObject 2nd arg!", Toast.LENGTH_LONG).show();
             }
         });
 
