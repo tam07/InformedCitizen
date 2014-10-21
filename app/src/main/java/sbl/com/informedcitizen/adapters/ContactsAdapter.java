@@ -2,6 +2,8 @@ package sbl.com.informedcitizen.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,9 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.imageaware.ImageAware;
-import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
+
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import sbl.com.informedcitizen.R;
 import sbl.com.informedcitizen.activities.DetailActivity;
 import sbl.com.informedcitizen.activities.ListActivity;
+import sbl.com.informedcitizen.activities.SearchActivity;
+import sbl.com.informedcitizen.fragments.MyAlertDialogFragment;
 import sbl.com.informedcitizen.helpers.APIclient;
 import sbl.com.informedcitizen.helpers.Constants;
 import sbl.com.informedcitizen.models.Contact;
@@ -36,6 +38,13 @@ import sbl.com.informedcitizen.models.Contact;
  * Created by atam on 8/15/2014.
  */
 public class ContactsAdapter extends ArrayAdapter<Contact> {
+
+    private OnContactSelectedListener listener;
+
+    public interface OnContactSelectedListener {
+        // by having a param to this function I can pass a variable from here to implementing class
+        public void onContactClicked(Contact selectedContact);
+    }
 
     // view cache to avoid refinding view that exists
     private static class ViewHolder {
@@ -129,13 +138,8 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ListActivity context = (ListActivity)getContext();
-
-                Intent detailIntent = new Intent(context, DetailActivity.class);
-                detailIntent.putExtra(Constants.DETAIL_INTENT_KEY, currContact);
-                context.startActivity(detailIntent);
-
-
+                listener = (OnContactSelectedListener)getContext();
+                listener.onContactClicked(currContact);
             }
         });
         return convertView;

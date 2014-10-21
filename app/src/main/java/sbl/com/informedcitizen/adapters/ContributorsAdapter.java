@@ -1,33 +1,20 @@
 package sbl.com.informedcitizen.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.util.Log;
+
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.imageaware.ImageAware;
-import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import sbl.com.informedcitizen.R;
-import sbl.com.informedcitizen.activities.DetailActivity;
-import sbl.com.informedcitizen.helpers.APIclient;
-import sbl.com.informedcitizen.helpers.Constants;
-import sbl.com.informedcitizen.models.Contact;
+
 import sbl.com.informedcitizen.models.Contributor;
 
 /**

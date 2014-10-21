@@ -32,5 +32,6 @@
     <string name="socialMediaInstr">Click to visit their social media sites</string>
     <string name="name">Name:</string>
     <string name="WashingtonDC">Washington DC, 20515</string>
+    <string name="home_menu_title">Home</string>
 
 </resources>

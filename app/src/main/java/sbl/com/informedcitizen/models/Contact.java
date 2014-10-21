@@ -9,6 +9,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+//import io.realm.RealmObject;
+//import io.realm.annotations.RealmClass;
+
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.From;
+import com.activeandroid.query.Select;
+
+
 /**
  * Created by atam on 9/4/2014.
  *
@@ -19,10 +30,16 @@ import java.util.List;
  *     2.  Use the social media info to fill out the ContactFragment
  *     2.  Use the id to call other services for the other fragments
  */
-public class Contact implements Serializable, Comparable {
+@Table(name="Contact")
+public class Contact extends Model implements Serializable, Comparable {
+
+    public Contact() {
+        super();
+    }
 
 
     public Contact(String id, String n, String c, String p, String addr, String phone, String fb, String twit, String yt) {
+        super();
         candID = id;
         name = n;
         chamber = c;
@@ -32,6 +49,22 @@ public class Contact implements Serializable, Comparable {
         facebook = fb;
         twitter = twit;
         youtube = yt;
+    }
+
+    public static List<Contact> getCachedContactsByState(String stateAbbr) {
+        /*return new Select().from(Contact.class).where("state = ?",
+                                                      stateAbbr).execute();*/
+        Select s = new Select();
+        From f = s.from(Contact.class);
+        f = f.where("state = ?", stateAbbr);
+        List<Contact> cachedContacts = f.execute();
+
+        return cachedContacts;
+    }
+
+    public static void clearCachedContactsByState(String stateAbbr) {
+        new Delete().from(Contact.class).where("state = ?",
+                stateAbbr).execute();
     }
 
     public static Contact returnContact(JSONObject contactJson) {
@@ -91,6 +124,12 @@ public class Contact implements Serializable, Comparable {
         return legislators;
     }
 
+
+    public void setState(String abbr) {
+        state = abbr;
+    }
+
+    public String getState() { return state; }
 
     public String getName() {
         return name;
@@ -164,14 +203,34 @@ public class Contact implements Serializable, Comparable {
         this.candID = candID;
     }
 
+    @Column(name="state")
+    String state;
+
+    @Column(name="candID", unique=true, onUniqueConflict = Column.ConflictAction.REPLACE)
     String candID;
+
+    @Column(name="name")
     String name;
+
+    @Column(name="chamber")
     String chamber;
+
+    @Column(name="party")
     String party;
+
+    @Column(name="address")
     String address;
+
+    @Column(name="phoneNo")
     String phoneNo;
+
+    @Column(name="facebook")
     String facebook;
+
+    @Column(name="twitter")
     String twitter;
+
+    @Column(name="youtube")
     String youtube;
 
     @Override

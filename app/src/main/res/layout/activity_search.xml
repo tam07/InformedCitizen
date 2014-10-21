@@ -36,10 +36,13 @@
 
         <LinearLayout
             android:id="@+id/state_ll"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
             <TextView
                 android:id="@+id/instructions"
@@ -47,18 +50,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:text="@string/enter_state"
                 android:textSize="20sp"
                 android:textColor="@color/AmericanBlue"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+               />
 
             <EditText
                 android:id="@+id/stateET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="center_horizontal"
                 android:hint="@string/ca"
                 android:textColorHint="@color/LightGrey"
                 android:textColor="@color/White" />
@@ -67,7 +70,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:background="@drawable/rounded_drawable"
                 android:onClick="onSearchClick"
                 android:text="@string/search"

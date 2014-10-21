@@ -26,6 +26,8 @@ import sbl.com.informedcitizen.models.Contact;
 import sbl.com.informedcitizen.models.DrawerItem;
 
 import android.support.v4.app.ActionBarDrawerToggle;
+//import com.actionbarsherlock.app.ActionBar.*;
+
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 
@@ -72,7 +74,8 @@ public class DetailActivity extends FragmentActivity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+        //getActionBar().setHomeButtonEnabled(true);
+
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.drawable.ic_drawer,
@@ -185,10 +188,18 @@ public class DetailActivity extends FragmentActivity {
         return true;
     }
 
+
     public void onLaunchCall(View v) {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:" + thisContact.getPhoneNo()));
         startActivity(callIntent);
+    }
+
+
+    public void onHomeClick(MenuItem mi) {
+        Intent i = new Intent(this, SearchActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
     }
 
 }
