@@ -30,7 +30,10 @@ import java.util.Collections;
 import java.util.List;
 
 
-
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 import sbl.com.informedcitizen.R;
 import sbl.com.informedcitizen.fragments.MyAlertDialogFragment;
 import sbl.com.informedcitizen.helpers.APIclient;
@@ -53,7 +56,7 @@ public class SearchActivity extends FragmentActivity {
     ArrayList<Contact> ithruq;
     ArrayList<Contact> rthruz;
 
-    //Realm realm;
+    Realm realm;
 
     private static final int REQUEST_CODE = 20;
 
@@ -76,12 +79,13 @@ public class SearchActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        /*try {
-            realm = new Realm(getFilesDir());
+        try {
+            //realm = new Realm(getFilesDir());
+            realm = realm.getInstance(this);
         }
         catch(Exception e) {
             e.printStackTrace();
-        }*/
+        }
         pb = (ProgressBar)findViewById(R.id.progressSpinner);
         stateET = (EditText)findViewById(R.id.stateET);
         waitTV = (TextView) findViewById(R.id.waitMessage);
@@ -144,23 +148,24 @@ public class SearchActivity extends FragmentActivity {
 
     public void onSearchClick(View v) {
         hideKeyboard();
-        final String enteredState = stateET.getText().toString();
+        final String enteredState = stateET.getText().toString().toLowerCase();
         /* if internet connection is available, load progress bar and launch list activity
-           otherwise show error diaog
+           otherwise show error dialog
          */
         if(!isNetworkAvailable()) {
 
-            //RealmList<Contact> cachedContacts = getCachedContacts(enteredState);
+            //RealmResults<Contact> cachedContacts = getCachedContactsByState(enteredState);
             List<Contact> cachedContacts = Contact.getCachedContactsByState(enteredState);
             //nothing cached for this state
             if(cachedContacts.size() == 0) {
+            //if(cachedContacts == null) {
                 MyAlertDialogFragment noConnDialog = MyAlertDialogFragment.newInstance("No Internet Connection",
                         "Connect your device to the internet to search");
                 noConnDialog.show(supportFM, "no_conn_dialog");
             }
             else {
                 pb.setVisibility(View.VISIBLE);
-                waitTV.setText("Getting from cache....");
+                waitTV.setText("Getting from local storage....");
                 waitTV.setVisibility(View.VISIBLE);
 
                 for (Contact cachedContact : cachedContacts) {
@@ -239,7 +244,7 @@ public class SearchActivity extends FragmentActivity {
 
                         try {
                             // clear existing cache entries for this state and add the new one
-                            /*RealmList<Contact> existingStateEntries = getCachedContacts(enteredState);
+                            /*RealmResults<Contact> existingStateEntries = getCachedContactsByState(enteredState);
 
                             if(existingStateEntries != null)
                                 existingStateEntries.clear();*/
@@ -254,11 +259,17 @@ public class SearchActivity extends FragmentActivity {
                         for (Contact currLeg : contacts) {
                             currLeg.setState(enteredState);
                             try {
-                                /*realm.beginWrite();
-                                Contact cachedContact = realm.create(Contact.class);*/
+                                //realm.beginWrite();
+                                //realm.beginTransaction();
+
+                                //Contact cachedContact = realm.create(Contact.class);
+                                //Contact cachedContact = realm.createObject(Contact.class);
 
                                 Contact cachedContact = new Contact();
-                                cachedContact.setState(enteredState);
+                                /* Whatever case was entered, store as upper case.  Later
+                                   I'l be retrieving by upper case
+                                 */
+                                cachedContact.setState(enteredState.toUpperCase());
                                 cachedContact.setCandID(currLeg.getCandID());
                                 cachedContact.setName(currLeg.getName());
                                 cachedContact.setChamber(currLeg.getChamber());
@@ -268,6 +279,7 @@ public class SearchActivity extends FragmentActivity {
                                 cachedContact.setFacebook(currLeg.getFacebook());
                                 cachedContact.setTwitter(currLeg.getTwitter());
                                 cachedContact.setYoutube(currLeg.getYoutube());
+
                                 cachedContact.save();
                                 //realm.commit();
                             }
@@ -322,18 +334,10 @@ public class SearchActivity extends FragmentActivity {
                                 "getLegislators failed with String arg!",
                                 Toast.LENGTH_LONG).show();
                     }
-
-
                 });
             }
         }
     }
-
-    /*private RealmList<Contact> getCachedContacts(String enteredState) {
-        return realm.where(Contact.class).equalTo("state", enteredState).findAll();
-    }*/
-
-
 
 
     @Override
@@ -343,4 +347,10 @@ public class SearchActivity extends FragmentActivity {
         ithruq.clear();
         rthruz.clear();
     }
+
+
+    /*public RealmResults<Contact> getCachedContactsByState(String enteredState) {
+        return realm.where(Contact.class)
+                .equalTo("state", enteredState).findAll();
+    }*/
 }

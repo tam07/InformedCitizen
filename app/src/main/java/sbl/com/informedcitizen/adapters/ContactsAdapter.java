@@ -16,6 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 
 import org.apache.http.Header;
@@ -32,6 +35,7 @@ import sbl.com.informedcitizen.activities.SearchActivity;
 import sbl.com.informedcitizen.fragments.MyAlertDialogFragment;
 import sbl.com.informedcitizen.helpers.APIclient;
 import sbl.com.informedcitizen.helpers.Constants;
+import sbl.com.informedcitizen.helpers.SquareImageView;
 import sbl.com.informedcitizen.models.Contact;
 
 /**
@@ -40,6 +44,7 @@ import sbl.com.informedcitizen.models.Contact;
 public class ContactsAdapter extends ArrayAdapter<Contact> {
 
     private OnContactSelectedListener listener;
+    String imgUrl;
 
     public interface OnContactSelectedListener {
         // by having a param to this function I can pass a variable from here to implementing class
@@ -48,7 +53,7 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
 
     // view cache to avoid refinding view that exists
     private static class ViewHolder {
-        //ImageView profileIV;
+        ImageView profileIV;
         TextView nameTV;
         TextView chamberTV;
         TextView partyTV;
@@ -68,39 +73,43 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
         final Contact currContact = getItem(position);
 
         final ViewHolder viewHolder;
+
         if (convertView == null) {
             Log.d("MY_TRACE", "convertView is null, current contact is " + currContact.getName());
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.contact_item, parent, false);
 
-            //viewHolder.profileIV = (ImageView) convertView.findViewById(R.id.profileIV);
+            viewHolder.profileIV = (ImageView) convertView.findViewById(R.id.profileIV);
             viewHolder.nameTV = (TextView) convertView.findViewById(R.id.nameTV);
             viewHolder.chamberTV = (TextView) convertView.findViewById(R.id.chamberTV);
             viewHolder.partyTV = (TextView) convertView.findViewById(R.id.partyTV);
             // tag row with inflated views
             convertView.setTag(viewHolder);
+
         } else {
             Log.d("MY_TRACE", "convertView is NOT null, current contact is " + currContact.getName());
             viewHolder = (ViewHolder) convertView.getTag();
+            Picasso.with(getContext()).cancelRequest(viewHolder.profileIV);
         }
 
-        String encodedName = Uri.encode(currContact.getName());
-        String googleUrl = Constants.IMG_SEARCH + encodedName;
-        /*APIclient.getImageJsonSynch(getContext(), googleUrl, new JsonHttpResponseHandler() {
+        String currName = currContact.getName();
+
+        APIclient.getImageJson(getContext(), currName, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject imgJson) {
                 try {
                     JSONObject responseDataValue = imgJson.getJSONObject("responseData");
                     JSONArray resultsValue = responseDataValue.getJSONArray("results");
                     JSONObject result = resultsValue.getJSONObject(0);
-                    String imgUrl = result.getString("url");
+                    imgUrl = result.getString("url");
 
-                    ImageAware imageAware = new ImageViewAware(viewHolder.profileIV, false);
-                    ImageLoader.getInstance().displayImage(imgUrl, imageAware);
+                    //ImageAware imageAware = new ImageViewAware(viewHolder.profileIV, false);
+                    //ImageLoader.getInstance().displayImage(imgUrl, imageAware);
                     //ImageLoader.getInstance().displayImage(imgUrl, viewHolder.profileIV);
-                }
-                catch(Exception e) {
+                    //Picasso.with(getContext()).load(imgUrl).into(viewHolder.profileIV);
+                    Picasso.with(getContext()).load(imgUrl).into(viewHolder.profileIV);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -115,7 +124,7 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
             }
 
             @Override
-             public void onFailure(int statusCode, Header[] headers, Throwable arg0, JSONArray arg1) {
+            public void onFailure(int statusCode, Header[] headers, Throwable arg0, JSONArray arg1) {
                 super.onFailure(statusCode, headers, arg0, arg1);
                 Toast.makeText(getContext(),
                         "getImageJsonSynch failed with JSONArray arg!", Toast.LENGTH_LONG).show();
@@ -129,8 +138,11 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
             }
 
         } // end anon class jsonhttpresponsehandler
-        );*/
+        );
+
+
         //viewHolder.profileIV.setBi
+
         viewHolder.nameTV.setText(currContact.getName());
         viewHolder.chamberTV.setText(currContact.getChamber());
         viewHolder.partyTV.setText(currContact.getParty());

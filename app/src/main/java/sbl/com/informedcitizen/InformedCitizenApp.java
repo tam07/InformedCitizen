@@ -2,6 +2,9 @@ package sbl.com.informedcitizen;
 import android.app.Application;
 
 import com.activeandroid.ActiveAndroid;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 
 //public class InformedCitizenApp extends Application {
@@ -20,5 +23,12 @@ import com.activeandroid.ActiveAndroid;
             .defaultDisplayImageOptions(defaultOptions)
             .build();
         ImageLoader.getInstance().init(config);*/
+
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().
+                cacheInMemory().cacheOnDisc().build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+                .defaultDisplayImageOptions(defaultOptions)
+                .build();
+        ImageLoader.getInstance().init(config);
     }
 }

@@ -25,7 +25,16 @@ public class Constants {
     public static final String CYCLE = "2014";
 
     // change to http regular if it doesnt work
-    public static final String IMG_SEARCH = "https://ajax.googleapis.com/ajax/services/search/images?rsz=1&start=1&v=1.0&q=";
+    public static final String IMG_SEARCH = "https://ajax.googleapis.com/ajax/services/search/images";
+
+
+    public static final String QUERY = "q";
+
+    public static final String CONGRESS_QTERM = "congress ";
 
     public static final String DETAIL_INTENT_KEY = "currentContact";
+
+    public static final String FLICKR_API_KEY = "a0af6912d100dfffd54d83c519865e15";
+
+    public static final String FLICKR_SECRET = "4f931e92618389b1";
 }

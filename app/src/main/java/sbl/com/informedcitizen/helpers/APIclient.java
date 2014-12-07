@@ -1,6 +1,7 @@
 package sbl.com.informedcitizen.helpers;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -18,7 +19,7 @@ import org.json.JSONObject;
  */
 public class APIclient {
     private static AsyncHttpClient client = new AsyncHttpClient();
-    private static SyncHttpClient blockingClient = new SyncHttpClient();
+    //private static SyncHttpClient blockingClient = new SyncHttpClient();
 
     public static void getLegislators(Context context, String state, AsyncHttpResponseHandler respHandler) {
 
@@ -78,8 +79,26 @@ public class APIclient {
     }
 
 
+    public static void getImageJson(Context context, String name, AsyncHttpResponseHandler respHandler) {
+        String encodedQueryStr = Uri.encode(Constants.CONGRESS_QTERM + name);
+        // rsz=1&start=0&v=1.0&imgsz=icon&imgtype=face
+        RequestParams params = new RequestParams();
+        params.put("rsz", "1");
+        params.put("start", "0");
+        params.put("v", "1.0");
+        //params.put("imgsz", "");
+        params.put("imgtype", "face");
+        params.put("q", "congress " + name);
+        get(context, "imageJson", params, respHandler);
+    }
+
+
     public static void get(Context context, String suffix, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         String requestUrl = getRequestUrl(suffix);
+        if(requestUrl.startsWith("https://ajax")) {
+            Log.d("TRACE", "FUCK ANDROID STUDIO");
+            requestUrl += "";
+        }
         try {
             Log.d("DEBUG", "About to GET " + suffix);
             client.get(context, requestUrl, params, responseHandler);
@@ -90,14 +109,16 @@ public class APIclient {
     }
 
 
-    public static void getImageJsonSynch(Context context, String url, AsyncHttpResponseHandler respHandler) {
+    /*public static void getImageJsonSynch(Context context, String url, AsyncHttpResponseHandler respHandler) {
         Log.d("DEBUG", "About to GET " + url);
         blockingClient.get(context, url, respHandler);
-    }
+    }*/
 
 
     private static String getRequestUrl(String suffix) {
-        return Constants.BASE_URL + suffix + Constants.KEY_PARAM + Constants.API_KEY +
-                Constants.FORMAT_PARAM + Constants.RESPONSE_FORMAT;
+        if(suffix != "imageJson")
+            return Constants.BASE_URL + suffix + Constants.KEY_PARAM + Constants.API_KEY +
+                   Constants.FORMAT_PARAM + Constants.RESPONSE_FORMAT;
+        return Constants.IMG_SEARCH;
     }
 }

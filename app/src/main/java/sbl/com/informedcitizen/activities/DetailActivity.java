@@ -26,7 +26,7 @@ import sbl.com.informedcitizen.models.Contact;
 import sbl.com.informedcitizen.models.DrawerItem;
 
 import android.support.v4.app.ActionBarDrawerToggle;
-//import com.actionbarsherlock.app.ActionBar.*;
+
 
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;

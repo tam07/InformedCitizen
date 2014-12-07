@@ -9,8 +9,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-//import io.realm.RealmObject;
-//import io.realm.annotations.RealmClass;
+import io.realm.Realm;
+import io.realm.RealmObject;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
+import io.realm.annotations.RealmClass;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -32,6 +35,7 @@ import com.activeandroid.query.Select;
  */
 @Table(name="Contact")
 public class Contact extends Model implements Serializable, Comparable {
+//public class Contact extends RealmObject implements Serializable, Comparable {
 
     public Contact() {
         super();
@@ -52,8 +56,9 @@ public class Contact extends Model implements Serializable, Comparable {
     }
 
     public static List<Contact> getCachedContactsByState(String stateAbbr) {
-        /*return new Select().from(Contact.class).where("state = ?",
-                                                      stateAbbr).execute();*/
+        //return new Select().from(Contact.class).where("state = ?",
+        //                                      stateAbbr).execute();
+        stateAbbr = stateAbbr.toUpperCase();
         Select s = new Select();
         From f = s.from(Contact.class);
         f = f.where("state = ?", stateAbbr);
@@ -72,6 +77,8 @@ public class Contact extends Model implements Serializable, Comparable {
         try {
             String id = contactJson.getString("cid");
             String name = contactJson.getString("firstlast");
+
+
 
             String website = contactJson.getString("website");
             String chamber;
