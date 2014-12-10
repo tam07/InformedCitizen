@@ -20,6 +20,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import sbl.com.informedcitizen.R;
 import sbl.com.informedcitizen.helpers.APIclient;
 
@@ -110,15 +113,21 @@ public class SummaryFragment extends Fragment {
                         nextElectionTV.setText(nextElection);
 
                         String total = attributesValue.getString("total");
+                        Double totalDollars = Double.parseDouble(total);
+                        NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.US);
+                        total = numberFormatter.format(totalDollars);
                         totalTV.setText("$" + total);
 
                         String spent = attributesValue.getString("spent");
+                        spent = numberFormatter.format(Double.parseDouble(spent));
                         spentTV.setText("$" + spent);
 
                         String cash = attributesValue.getString("cash_on_hand");
+                        cash = numberFormatter.format(Double.parseDouble(cash));
                         cashTV.setText("$" + cash);
 
                         String debt = attributesValue.getString("debt");
+                        debt = numberFormatter.format(Double.parseDouble(debt));
                         debtTV.setText("$" + debt);
 
                         String lastUpdated = attributesValue.getString("last_updated");
