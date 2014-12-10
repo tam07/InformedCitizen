@@ -6,6 +6,6 @@
         android:icon="@drawable/ic_home"
         android:showAsAction="ifRoom|withText"
         android:title="@string/home_menu_title"
-        android:onClick="onHomeClick">
+        >
     </item>
 </menu>

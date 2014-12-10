@@ -33,12 +33,22 @@
         <activity
             android:name=".activities.ListActivity"
             android:label="ListActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:parentActivityName="sbl.com.informedcitizen.activities.SearchActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="sbl.com.informedcitizen.activities.SearchActivity" />
         </activity>
         <activity
             android:name=".activities.DetailActivity"
             android:label="@string/title_activity_detail"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:parentActivityName="sbl.com.informedcitizen.activities.ListActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="sbl.com.informedcitizen.activities.ListActivity" />
         </activity>
     </application>
 

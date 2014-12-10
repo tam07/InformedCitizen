@@ -202,4 +202,17 @@ public class DetailActivity extends FragmentActivity {
         startActivity(i);
     }
 
+
+    public boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+            case R.id.miHome:
+                Intent i = new Intent(this, SearchActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+        }
+        return true;
+    }
+
 }

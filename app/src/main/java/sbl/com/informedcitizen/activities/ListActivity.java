@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -60,6 +61,7 @@ public class ListActivity extends SherlockFragmentActivity implements ContactsAd
         secondList = (ArrayList<Contact>) getIntent().getSerializableExtra("second");
         thirdList = (ArrayList<Contact>) getIntent().getSerializableExtra("third");
 
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         int selectIndex = 0;
         if (savedInstanceState != null)
             selectIndex = savedInstanceState.getInt("tIndex");
@@ -146,16 +148,25 @@ public class ListActivity extends SherlockFragmentActivity implements ContactsAd
     }
 
 
-    public void onHomeClick(MenuItem mi) {
-       // go back
-       /* finish(); inconsistent with pressing home in the DetailActivity, where the edit text is
-          cleared(like it should be)
-        */
+    /*public void onHomeClick(MenuItem mi) {
         Intent i = new Intent(this, SearchActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
-    }
+    }*/
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+            case R.id.miHome:
+                Intent i = new Intent(this, SearchActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+        }
+        return true;
+    }
 
 /*
     @Override
