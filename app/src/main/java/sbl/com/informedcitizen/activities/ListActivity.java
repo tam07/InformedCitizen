@@ -148,7 +148,12 @@ public class ListActivity extends SherlockFragmentActivity implements ContactsAd
 
     public void onHomeClick(MenuItem mi) {
        // go back
-       finish();
+       /* finish(); inconsistent with pressing home in the DetailActivity, where the edit text is
+          cleared(like it should be)
+        */
+        Intent i = new Intent(this, SearchActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
     }
 
 
