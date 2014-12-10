@@ -28,7 +28,7 @@ Thumbs.db
 # Android Studio
 .idea
 #.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
-.gradle
+*.gradle
 build/
 Optional - for older project format, add this section to your gitignore file:
 
