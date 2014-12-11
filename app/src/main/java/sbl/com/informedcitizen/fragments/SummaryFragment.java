@@ -127,7 +127,8 @@ public class SummaryFragment extends Fragment {
                         cash = numberFormatter.format(Double.parseDouble(cash));
                         cashTV.setText("$" + cash);
 
-                        String debt = attributesValue.getString("debt") + "?";
+                        // removing question mark to resolve numberformatexception
+                        String debt = attributesValue.getString("debt");
                         debt = numberFormatter.format(Double.parseDouble(debt));
                         debtTV.setText("$" + debt);
 
