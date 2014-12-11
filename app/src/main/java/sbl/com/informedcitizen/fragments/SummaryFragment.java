@@ -162,6 +162,7 @@ public class SummaryFragment extends Fragment {
     }
 
 
+    /* not using fragment interaction listener pattern */
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
