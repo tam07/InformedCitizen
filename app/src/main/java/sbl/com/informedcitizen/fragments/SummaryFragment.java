@@ -1,3 +1,4 @@
+// mac comment
 package sbl.com.informedcitizen.fragments;
 
 import android.app.Activity;
