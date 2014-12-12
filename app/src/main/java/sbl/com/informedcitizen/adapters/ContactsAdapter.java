@@ -43,6 +43,7 @@ import sbl.com.informedcitizen.models.Contact;
  */
 public class ContactsAdapter extends ArrayAdapter<Contact> {
 
+    // using an interface as an inner type, similar to the fragment interaction listener pattern
     private OnContactSelectedListener listener;
     String imgUrl;
 
