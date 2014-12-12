@@ -95,8 +95,7 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
 
         String currName = currContact.getName();
 
-        /* GET request to retrieve url, then another GET to render it into the ImageView
-         */
+        // GET request to retrieve url, then another GET to render it into the ImageView
         APIclient.getImageJson(getContext(), currName, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject imgJson) {
