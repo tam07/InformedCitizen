@@ -24,7 +24,7 @@
         <activity
             android:name=".activities.SearchActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+ >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -33,7 +33,7 @@
         <activity
             android:name=".activities.ListActivity"
             android:label="ListActivity"
-            android:screenOrientation="portrait"
+
             android:parentActivityName="sbl.com.informedcitizen.activities.SearchActivity" >
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -43,7 +43,7 @@
         <activity
             android:name=".activities.DetailActivity"
             android:label="@string/title_activity_detail"
-            android:screenOrientation="portrait"
+
             android:parentActivityName="sbl.com.informedcitizen.activities.ListActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
